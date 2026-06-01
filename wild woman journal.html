@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дикая Женщина — Дневник Тени</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --earth: #2C1810;
+  --bark: #5C3A1E;
+  --moss: #4A5240;
+  --blood: #8B2020;
+  --sand: #C4A882;
+  --cream: #F5EFE6;
+  --bone: #E8DDD0;
+  --bg: #FAF6F1;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--earth); min-height: 100vh; }
+
+/* ─── SCREENS ─── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* ─── COVER ─── */
+#cover {
+  background: var(--earth);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 3rem 2rem;
+  position: relative; overflow: hidden; min-height: 100vh;
+}
+#cover::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(139,32,32,0.28) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(74,82,64,0.2) 0%, transparent 50%);
+}
+.cover-symbol { font-size: 4rem; display: block; margin-bottom: 1.5rem; position: relative; animation: fadeUp 1s ease both; }
+.cover h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 300;
+  color: var(--cream); letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.15;
+  position: relative; animation: fadeUp 1s 0.15s ease both;
+}
+.cover h1 em { display: block; font-style: italic; font-size: clamp(0.95rem, 2.5vw, 1.2rem); color: var(--sand); letter-spacing: 0.2em; margin-top: 0.5rem; }
+.cover-orn { display: flex; align-items: center; gap: 1rem; margin: 1.8rem 0; position: relative; animation: fadeUp 1s 0.25s ease both; }
+.cover-orn-line { width: 70px; height: 1px; }
+.cover-orn-line:first-child { background: linear-gradient(90deg, transparent, var(--sand)); }
+.cover-orn-line:last-child { background: linear-gradient(90deg, var(--sand), transparent); }
+.cover-orn-dot { width: 5px; height: 5px; background: var(--sand); border-radius: 50%; }
+.cover p { font-size: 0.73rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(245,239,230,0.4); position: relative; animation: fadeUp 1s 0.3s ease both; }
+.cover-btn {
+  margin-top: 3rem; padding: 0.9rem 2.5rem;
+  border: 1px solid rgba(196,168,130,0.4); background: transparent;
+  color: var(--sand); font-family: 'Jost', sans-serif;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: pointer; border-radius: 1px; transition: all 0.3s;
+  position: relative; animation: fadeUp 1s 0.5s ease both;
+}
+.cover-btn:hover { background: rgba(196,168,130,0.1); border-color: var(--sand); color: var(--cream); }
+@keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+
+/* ─── HEADER ─── */
+.top-bar {
+  background: var(--earth); padding: 0 1.2rem;
+  display: flex; align-items: center; gap: 0.8rem;
+  height: 54px; position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 16px rgba(44,24,16,0.18);
+}
+.back-btn {
+  background: none; border: none; color: var(--sand);
+  font-size: 1.2rem; cursor: pointer; padding: 0.3rem;
+  display: flex; align-items: center; line-height: 1;
+  transition: color 0.2s;
+}
+.back-btn:hover { color: var(--cream); }
+.top-bar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: 1.05rem; color: var(--cream);
+  flex: 1;
+}
+.top-bar-action {
+  background: none; border: 1px solid rgba(196,168,130,0.35);
+  color: var(--sand); font-family: 'Jost', sans-serif;
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 0.4rem 0.9rem;
+  border-radius: 1px; cursor: pointer; transition: all 0.2s;
+  white-space: nowrap;
+}
+.top-bar-action:hover { background: rgba(196,168,130,0.12); color: var(--cream); }
+
+/* ─── HOME ─── */
+#home { background: var(--bg); }
+.home-hero {
+  background: var(--earth); padding: 2rem 1.5rem 1.8rem;
+  text-align: center; position: relative; overflow: hidden;
+}
+.home-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(139,32,32,0.2) 0%, transparent 60%);
+}
+.home-hero-symbol { font-size: 2rem; display: block; margin-bottom: 0.7rem; position: relative; }
+.home-hero h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 300; color: var(--cream);
+  position: relative; letter-spacing: 0.06em;
+}
+.home-hero h2 em { font-style: italic; color: var(--sand); }
+.home-hero p { font-size: 0.78rem; color: rgba(245,239,230,0.4); margin-top: 0.4rem; letter-spacing: 0.12em; position: relative; }
+
+.new-entry-btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  margin: 1.5rem 1.2rem 0;
+  padding: 1rem; background: var(--blood);
+  color: var(--cream); border: none; border-radius: 3px;
+  font-family: 'Jost', sans-serif; font-size: 0.8rem;
+  font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s; width: calc(100% - 2.4rem);
+}
+.new-entry-btn:hover { background: #a02828; }
+.new-entry-btn .btn-icon { font-size: 1rem; }
+
+/* ─── HISTORY LIST ─── */
+.history-section { padding: 1.5rem 1.2rem; }
+.history-label {
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--sand); margin-bottom: 1rem; display: block;
+}
+.empty-state {
+  text-align: center; padding: 3rem 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-style: italic; color: rgba(92,58,30,0.4);
+  line-height: 1.7;
+}
+
+.entry-card {
+  background: white; border: 1px solid rgba(196,168,130,0.25);
+  border-radius: 4px; padding: 1rem 1.2rem;
+  margin-bottom: 0.6rem; cursor: pointer;
+  transition: all 0.2s; display: flex;
+  align-items: center; gap: 1rem;
+}
+.entry-card:hover { border-color: var(--blood); box-shadow: 0 2px 12px rgba(139,32,32,0.08); }
+.entry-card:active { transform: scale(0.99); }
+
+.entry-date-block { min-width: 44px; text-align: center; }
+.entry-day { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--earth); line-height: 1; }
+.entry-month { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--sand); }
+
+.entry-divider { width: 1px; height: 36px; background: rgba(196,168,130,0.3); }
+
+.entry-meta { flex: 1; min-width: 0; }
+.entry-weekday { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sand); margin-bottom: 0.25rem; }
+.entry-preview { font-size: 0.85rem; color: var(--bark); font-weight: 300; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.entry-moods { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.35rem; }
+.entry-mood-tag {
+  font-size: 0.62rem; padding: 0.15rem 0.5rem;
+  border: 1px solid rgba(196,168,130,0.4); border-radius: 10px;
+  color: var(--bark);
+}
+
+.entry-arrow { color: var(--sand); font-size: 0.9rem; flex-shrink: 0; }
+
+/* ─── ENTRY FORM ─── */
+#entry-screen { background: var(--bg); }
+.entry-wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.3rem 4rem; }
+
+.section-block { margin-bottom: 2.5rem; }
+.section-eyebrow {
+  font-size: 0.62rem; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--sand); display: block; margin-bottom: 0.4rem;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 300; color: var(--earth); line-height: 1.2; margin-bottom: 1.2rem;
+}
+.section-title em { font-style: italic; color: var(--bark); }
+
+.divider { display: flex; align-items: center; gap: 0.7rem; margin: 0.5rem 0 1.5rem; }
+.divider-line { flex: 1; height: 1px; background: var(--sand); opacity: 0.3; }
+.divider-dot { width: 4px; height: 4px; background: var(--sand); border-radius: 50%; opacity: 0.5; }
+
+/* MOOD SELECTOR */
+.mood-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--sand); display: block; margin-bottom: 0.7rem; }
+.mood-wrap { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.8rem; }
+.mood-btn {
+  padding: 0.35rem 0.85rem; border: 1px solid rgba(196,168,130,0.35);
+  border-radius: 20px; background: transparent;
+  font-family: 'Jost', sans-serif; font-size: 0.78rem;
+  color: var(--bark); cursor: pointer; transition: all 0.18s;
+}
+.mood-btn:hover { border-color: var(--blood); color: var(--blood); }
+.mood-btn.sel { background: var(--earth); color: var(--cream); border-color: var(--earth); }
+
+/* INFO BLOCKS */
+.block-light { border-left: 3px solid var(--moss); padding: 0.9rem 1.2rem; background: rgba(74,82,64,0.05); border-radius: 0 5px 5px 0; margin-bottom: 1rem; }
+.block-shadow { border-left: 3px solid var(--blood); padding: 0.9rem 1.2rem; background: rgba(139,32,32,0.04); border-radius: 0 5px 5px 0; margin-bottom: 1rem; }
+.block-label { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.block-light .block-label { color: var(--moss); }
+.block-shadow .block-label { color: var(--blood); }
+.block-light p, .block-shadow p { font-size: 0.87rem; line-height: 1.68; color: var(--earth); font-weight: 300; }
+
+/* QUESTIONS */
+.q-item { margin-bottom: 1.6rem; }
+.q-label { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.9rem; line-height: 1.5; color: var(--earth); margin-bottom: 0.55rem; }
+.q-num { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; color: var(--sand); min-width: 20px; padding-top: 1px; }
+.q-area {
+  width: 100%; min-height: 72px; background: transparent;
+  border: none; border-bottom: 1.5px solid rgba(196,168,130,0.45);
+  font-family: 'Jost', sans-serif; font-size: 0.87rem; color: var(--earth);
+  line-height: 1.8; padding: 0.4rem 0; resize: vertical; outline: none; transition: border-color 0.2s;
+}
+.q-area::placeholder { color: rgba(92,58,30,0.27); font-style: italic; }
+.q-area:focus { border-bottom-color: var(--blood); }
+
+/* PHRASE LIST */
+.phrase-list { list-style: none; margin-bottom: 0.5rem; }
+.phrase-item {
+  padding: 0.8rem 1rem; margin-bottom: 0.45rem;
+  border: 1px solid rgba(196,168,130,0.28); border-radius: 3px;
+  font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic;
+  color: var(--bark); cursor: pointer; transition: all 0.18s;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.phrase-item:hover, .phrase-item.open { border-color: var(--blood); color: var(--blood); background: rgba(139,32,32,0.03); }
+.phrase-dash { color: var(--sand); }
+.phrase-expand { display: none; padding: 0.6rem 0 0.8rem 1.6rem; }
+.phrase-expand.open { display: block; }
+
+/* PRACTICE CARDS */
+.practice-card {
+  background: var(--earth); border-radius: 5px;
+  padding: 1.3rem 1.5rem; margin-bottom: 0.8rem; position: relative; overflow: hidden;
+}
+.practice-card::after {
+  content: ''; position: absolute; right: -20px; bottom: -20px;
+  width: 80px; height: 80px; border-radius: 50%; background: rgba(196,168,130,0.07);
+}
+.practice-tag { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); display: block; margin-bottom: 0.45rem; }
+.practice-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--cream); margin-bottom: 0.5rem; }
+.practice-card p { font-size: 0.83rem; line-height: 1.75; color: rgba(245,239,230,0.7); font-weight: 300; position: relative; }
+
+/* QUOTE */
+.quote-block {
+  padding: 1.4rem 1.5rem; background: var(--earth);
+  border-radius: 5px; text-align: center; margin: 1.5rem 0;
+}
+.quote-block p { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--sand); line-height: 1.75; }
+.quote-block p span { color: var(--cream); }
+
+/* SAVE BAR */
+.save-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 1px solid rgba(196,168,130,0.25);
+  padding: 0.9rem 1.3rem; display: flex; gap: 0.7rem; z-index: 200;
+  box-shadow: 0 -4px 20px rgba(44,24,16,0.08);
+}
+.save-bar-btn {
+  flex: 1; padding: 0.85rem; border: none; border-radius: 2px;
+  font-family: 'Jost', sans-serif; font-size: 0.75rem;
+  font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-primary { background: var(--earth); color: var(--cream); }
+.btn-primary:hover { background: var(--blood); }
+.btn-primary.saved { background: var(--moss); }
+.btn-secondary { background: transparent; color: var(--bark); border: 1px solid rgba(196,168,130,0.35); }
+.btn-secondary:hover { border-color: var(--blood); color: var(--blood); }
+
+/* ─── VIEW SCREEN ─── */
+#view-screen { background: var(--bg); }
+.view-wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.3rem 4rem; }
+
+.view-date-hero {
+  background: var(--earth); border-radius: 5px;
+  padding: 1.5rem; margin-bottom: 1.8rem; text-align: center; position: relative; overflow: hidden;
+}
+.view-date-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(139,32,32,0.2) 0%, transparent 60%);
+}
+.view-date-big { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--cream); position: relative; }
+.view-date-sub { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,239,230,0.4); margin-top: 0.3rem; position: relative; }
+
+.view-moods { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.8rem; justify-content: center; }
+.view-mood-tag {
+  font-size: 0.75rem; padding: 0.3rem 0.8rem;
+  border: 1px solid rgba(196,168,130,0.35); border-radius: 20px; color: var(--bark);
+}
+
+.view-section { margin-bottom: 2rem; }
+.view-section-title {
+  font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--sand); margin-bottom: 1rem; display: block;
+}
+.view-q { margin-bottom: 1.2rem; }
+.view-q-label { font-size: 0.8rem; color: rgba(92,58,30,0.55); margin-bottom: 0.3rem; font-weight: 300; }
+.view-q-answer {
+  font-size: 0.92rem; line-height: 1.75; color: var(--earth);
+  font-weight: 300; border-left: 2px solid rgba(196,168,130,0.35);
+  padding-left: 0.9rem;
+}
+.view-q-empty { font-size: 0.85rem; color: rgba(92,58,30,0.3); font-style: italic; }
+
+.delete-btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  width: 100%; padding: 0.7rem; margin-top: 2rem;
+  background: transparent; border: 1px solid rgba(139,32,32,0.25);
+  color: rgba(139,32,32,0.5); border-radius: 2px;
+  font-family: 'Jost', sans-serif; font-size: 0.72rem;
+  font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+}
+.delete-btn:hover { background: rgba(139,32,32,0.05); color: var(--blood); border-color: var(--blood); }
+
+@media (max-width: 480px) {
+  .entry-wrap, .view-wrap { padding: 1.5rem 1rem 5rem; }
+  .save-bar { padding: 0.8rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ COVER ═══ -->
+<div class="screen active" id="cover">
+  <div style="background:var(--earth);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(139,32,32,.28) 0%,transparent 55%),radial-gradient(ellipse at 80% 70%,rgba(74,82,64,.2) 0%,transparent 50%);"></div>
+    <span class="cover-symbol">🐺</span>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,6vw,3.2rem);font-weight:300;color:var(--cream);letter-spacing:.1em;text-transform:uppercase;line-height:1.15;position:relative;animation:fadeUp 1s .15s ease both;">Дикая Женщина<em style="display:block;font-style:italic;font-size:clamp(.95rem,2.5vw,1.2rem);color:var(--sand);letter-spacing:.2em;margin-top:.5rem;">Дневник Тени</em></h1>
+    <div class="cover-orn" style="position:relative;">
+      <div class="cover-orn-line"></div><div class="cover-orn-dot"></div><div class="cover-orn-line"></div>
+    </div>
+    <p style="position:relative;">Корневой центр · Возвращение к себе</p>
+    <button class="cover-btn" onclick="goHome()">Открыть дневник →</button>
+  </div>
+</div>
+
+<!-- ═══ HOME ═══ -->
+<div class="screen" id="home">
+  <div class="home-hero">
+    <span class="home-hero-symbol">🐺</span>
+    <h2 class="home-hero h2"><em>Дикая Женщина</em></h2>
+    <p>Дневник Тени · Корневой центр</p>
+  </div>
+
+  <button class="new-entry-btn" onclick="openNewEntry()">
+    <span class="btn-icon">✦</span> Запись на сегодня
+  </button>
+
+  <div class="history-section">
+    <span class="history-label">История записей</span>
+    <div id="historyList">
+      <div class="empty-state">Здесь будут твои записи.<br>Начни первую сегодня.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ENTRY FORM ═══ -->
+<div class="screen" id="entry-screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <span class="top-bar-title" id="entryTopTitle">Новая запись</span>
+  </div>
+
+  <div class="entry-wrap">
+
+    <!-- MOOD -->
+    <div class="section-block">
+      <span class="mood-label">Как ты сейчас?</span>
+      <div class="mood-wrap" id="moodWrap">
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">живая</button>
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">онемевшая</button>
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">злая</button>
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">грустная</button>
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">тревожная</button>
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">спокойная</button>
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">усталая</button>
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">желанная</button>
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">в теле</button>
+        <button class="mood-btn" onclick="this.classList.toggle('sel')">далеко от себя</button>
+      </div>
+    </div>
+
+    <!-- SHADOW -->
+    <div class="section-block">
+      <span class="section-eyebrow">Корневой центр</span>
+      <h2 class="section-title"><em>Дикая Женщина</em> — Тень</h2>
+      <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+      <div class="block-light">
+        <div class="block-label">Свет</div>
+        <p>Жизненность · Интуиция · Сексуальность · Связь с телом · Творчество · Свобода</p>
+      </div>
+      <div class="block-shadow">
+        <div class="block-label">Тень подавления</div>
+        <p>Депрессия · Онемение · Потеря желания · Хроническая усталость · «Я не живая»</p>
+      </div>
+
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">1.</span><span>Когда ты последний раз чувствовала себя по-настоящему живой?</span></div>
+        <textarea class="q-area" id="q1" placeholder="Пиши без цензуры..."></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">2.</span><span>Что ты запрещаешь себе хотеть? Какое желание кажется «слишком много»?</span></div>
+        <textarea class="q-area" id="q2" placeholder="Позволь себе честность..."></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">3.</span><span>В каких ситуациях ты теряешь себя — становишься удобной, правильной, незаметной?</span></div>
+        <textarea class="q-area" id="q3" placeholder="Вспомни конкретные моменты..."></textarea>
+      </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="section-block">
+      <span class="section-eyebrow">Присутствие</span>
+      <h2 class="section-title"><em>Тело</em></h2>
+      <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">4.</span><span>Где в теле живёт напряжение, онемение или пустота? Что там хочет быть услышанным?</span></div>
+        <textarea class="q-area" id="q4" placeholder="Опиши ощущения, не анализируя..."></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">5.</span><span>Когда твоё тело говорило «нет», но ты продолжала? Последний пример.</span></div>
+        <textarea class="q-area" id="q5" placeholder="Тело всегда знает раньше ума..."></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">6.</span><span>Что даёт твоему телу подлинное удовольствие — не «правильное», а настоящее?</span></div>
+        <textarea class="q-area" id="q6" placeholder="Позволь себе признать это..."></textarea>
+      </div>
+    </div>
+
+    <!-- PRACTICE -->
+    <div class="section-block">
+      <span class="section-eyebrow">Работа с тенью</span>
+      <h2 class="section-title"><em>«Что мне нельзя?»</em></h2>
+      <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+      <p style="font-size:.88rem;color:var(--bark);font-weight:300;line-height:1.75;margin-bottom:1.2rem;">Нажми на фразу и продолжи — быстро, без цензуры. Там живёт Тень.</p>
+
+      <ul class="phrase-list">
+        <li class="phrase-item" onclick="togglePhrase(this,'pp0')"><span class="phrase-dash">—</span> Мне нельзя быть…</li>
+        <div class="phrase-expand" id="pp0"><textarea class="q-area" id="p0" placeholder="Продолжи фразу..." style="min-height:60px;"></textarea></div>
+        <li class="phrase-item" onclick="togglePhrase(this,'pp1')"><span class="phrase-dash">—</span> Женщина не должна…</li>
+        <div class="phrase-expand" id="pp1"><textarea class="q-area" id="p1" placeholder="Продолжи фразу..." style="min-height:60px;"></textarea></div>
+        <li class="phrase-item" onclick="togglePhrase(this,'pp2')"><span class="phrase-dash">—</span> Если я проявлю силу…</li>
+        <div class="phrase-expand" id="pp2"><textarea class="q-area" id="p2" placeholder="Продолжи фразу..." style="min-height:60px;"></textarea></div>
+        <li class="phrase-item" onclick="togglePhrase(this,'pp3')"><span class="phrase-dash">—</span> Если я скажу правду…</li>
+        <div class="phrase-expand" id="pp3"><textarea class="q-area" id="p3" placeholder="Продолжи фразу..." style="min-height:60px;"></textarea></div>
+        <li class="phrase-item" onclick="togglePhrase(this,'pp4')"><span class="phrase-dash">—</span> Если я перестану быть удобной…</li>
+        <div class="phrase-expand" id="pp4"><textarea class="q-area" id="p4" placeholder="Продолжи фразу..." style="min-height:60px;"></textarea></div>
+        <li class="phrase-item" onclick="togglePhrase(this,'pp5')"><span class="phrase-dash">—</span> Если я покажу злость…</li>
+        <div class="phrase-expand" id="pp5"><textarea class="q-area" id="p5" placeholder="Продолжи фразу..." style="min-height:60px;"></textarea></div>
+      </ul>
+    </div>
+
+    <!-- EVENING -->
+    <div class="section-block">
+      <span class="section-eyebrow">Вечерний ритуал</span>
+      <h2 class="section-title"><em>Итог дня</em></h2>
+      <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">7.</span><span>Где сегодня я предала себя?</span></div>
+        <textarea class="q-area" id="q7" placeholder="Любой момент, когда пошла против себя..."></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">8.</span><span>Где я была настоящей?</span></div>
+        <textarea class="q-area" id="q8" placeholder="Хоть маленький момент подлинности..."></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">9.</span><span>Что я подавила сегодня?</span></div>
+        <textarea class="q-area" id="q9" placeholder="Эмоция, желание, слово, движение..."></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">10.</span><span>Что я чувствовала, но не выразила?</span></div>
+        <textarea class="q-area" id="q10" placeholder="Что осталось невысказанным..."></textarea>
+      </div>
+      <div class="q-item">
+        <div class="q-label"><span class="q-num">11.</span><span>Какую свою часть я сегодня испугалась?</span></div>
+        <textarea class="q-area" id="q11" placeholder="Какая твоя часть казалась слишком опасной..."></textarea>
+      </div>
+
+      <div class="quote-block">
+        <p>«Тень — это не враг.<br><span>Это часть тебя, которая ждёт разрешения жить.»</span></p>
+      </div>
+    </div>
+
+    <!-- PRACTICES (reference) -->
+    <div class="section-block">
+      <span class="section-eyebrow">Телесные практики</span>
+      <h2 class="section-title">На сегодня</h2>
+      <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+      <div class="practice-card">
+        <span class="practice-tag">Тряска</span>
+        <h3>Разморозка дикости</h3>
+        <p>Встань, согни колени, начни мелко трясти ногами — потом всё тело. 3–5 минут. Никакого контроля.</p>
+      </div>
+      <div class="practice-card">
+        <span class="practice-tag">Звук</span>
+        <h3>Голос без слов</h3>
+        <p>Закрой глаза. Позволь телу издать звук — рык, вой, выдох. Не красиво. Настоящее.</p>
+      </div>
+      <div class="practice-card">
+        <span class="practice-tag">Земля</span>
+        <h3>Заземление через стопы</h3>
+        <p>Босиком на пол. Надави. Дыши в живот. Скажи вслух: «Я здесь. Я живая. Моё тело — мой дом.»</p>
+      </div>
+    </div>
+
+    <div style="height:80px;"></div>
+  </div>
+
+  <div class="save-bar">
+    <button class="save-bar-btn btn-secondary" onclick="goHome()">← Назад</button>
+    <button class="save-bar-btn btn-primary" id="saveBtn" onclick="saveEntry()">Сохранить день</button>
+  </div>
+</div>
+
+<!-- ═══ VIEW ═══ -->
+<div class="screen" id="view-screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <span class="top-bar-title" id="viewTopTitle">Запись</span>
+    <button class="top-bar-action" onclick="editCurrentEntry()">Редактировать</button>
+  </div>
+  <div class="view-wrap" id="viewContent"></div>
+</div>
+
+<script>
+const STORAGE_KEY = 'ww_journal_v2';
+const MONTHS = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const MONTHS_SHORT = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+const WEEKDAYS = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+const WEEKDAYS_SHORT = ['вс','пн','вт','ср','чт','пт','сб'];
+
+const QS = [
+  'Когда ты последний раз чувствовала себя по-настоящему живой?',
+  'Что ты запрещаешь себе хотеть?',
+  'Когда ты теряешь себя — становишься удобной, незаметной?',
+  'Где в теле живёт напряжение или пустота?',
+  'Когда тело говорило «нет», но ты продолжала?',
+  'Что даёт твоему телу настоящее удовольствие?',
+  'Где сегодня я предала себя?',
+  'Где я была настоящей?',
+  'Что я подавила сегодня?',
+  'Что чувствовала, но не выразила?',
+  'Какую свою часть испугалась сегодня?'
+];
+
+const PHRASES = [
+  'Мне нельзя быть…',
+  'Женщина не должна…',
+  'Если я проявлю силу…',
+  'Если я скажу правду…',
+  'Если я перестану быть удобной…',
+  'Если я покажу злость…'
+];
+
+let currentDate = null;
+
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+
+function saveData(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  renderHistory();
+  showScreen('home');
+}
+
+function goHome_cover() { showScreen('cover'); }
+
+function enterJournal() { goHome(); }
+// alias
+window.goHome = goHome;
+
+function formatDateKey(d) {
+  return d.toISOString().split('T')[0];
+}
+
+function formatDateHero(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function formatDateShort(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]}`;
+}
+
+function getWeekday(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return WEEKDAYS[d.getDay()];
+}
+
+function getWeekdayShort(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return WEEKDAYS_SHORT[d.getDay()];
+}
+
+function openNewEntry() {
+  currentDate = formatDateKey(new Date());
+  document.getElementById('entryTopTitle').textContent = formatDateHero(currentDate);
+  clearForm();
+  // load existing if any
+  const data = loadData();
+  if (data[currentDate]) fillForm(data[currentDate]);
+  showScreen('entry-screen');
+}
+
+function clearForm() {
+  for (let i = 1; i <= 11; i++) {
+    const el = document.getElementById('q'+i);
+    if (el) el.value = '';
+  }
+  for (let i = 0; i <= 5; i++) {
+    const el = document.getElementById('p'+i);
+    if (el) el.value = '';
+  }
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('sel'));
+  document.querySelectorAll('.phrase-expand').forEach(e => e.classList.remove('open'));
+  document.querySelectorAll('.phrase-item').forEach(i => i.classList.remove('open'));
+}
+
+function fillForm(entry) {
+  for (let i = 1; i <= 11; i++) {
+    const el = document.getElementById('q'+i);
+    if (el && entry['q'+i]) el.value = entry['q'+i];
+  }
+  for (let i = 0; i <= 5; i++) {
+    const el = document.getElementById('p'+i);
+    if (el && entry['p'+i]) el.value = entry['p'+i];
+  }
+  if (entry.moods) {
+    document.querySelectorAll('.mood-btn').forEach(b => {
+      if (entry.moods.includes(b.textContent.trim())) b.classList.add('sel');
+    });
+  }
+}
+
+function collectForm() {
+  const entry = { date: currentDate, moods: [], answers: {}, phrases: {} };
+  document.querySelectorAll('.mood-btn.sel').forEach(b => entry.moods.push(b.textContent.trim()));
+  for (let i = 1; i <= 11; i++) {
+    const el = document.getElementById('q'+i);
+    if (el) entry['q'+i] = el.value.trim();
+  }
+  for (let i = 0; i <= 5; i++) {
+    const el = document.getElementById('p'+i);
+    if (el) entry['p'+i] = el.value.trim();
+  }
+  return entry;
+}
+
+function saveEntry() {
+  const entry = collectForm();
+  const data = loadData();
+  data[currentDate] = entry;
+  saveData(data);
+
+  const btn = document.getElementById('saveBtn');
+  btn.classList.add('saved');
+  btn.textContent = '✓ Сохранено';
+  setTimeout(() => {
+    btn.classList.remove('saved');
+    btn.textContent = 'Сохранить день';
+    goHome();
+  }, 1200);
+}
+
+function renderHistory() {
+  const data = loadData();
+  const keys = Object.keys(data).sort((a,b) => b.localeCompare(a));
+  const list = document.getElementById('historyList');
+
+  if (keys.length === 0) {
+    list.innerHTML = '<div class="empty-state">Здесь будут твои записи.<br>Начни первую сегодня.</div>';
+    return;
+  }
+
+  list.innerHTML = keys.map(k => {
+    const e = data[k];
+    const moods = (e.moods || []).slice(0, 3);
+    const preview = e.q7 || e.q1 || e.q8 || '';
+    const d = new Date(k + 'T12:00:00');
+    const moodTags = moods.map(m => `<span class="entry-mood-tag">${m}</span>`).join('');
+    return `
+      <div class="entry-card" onclick="viewEntry('${k}')">
+        <div class="entry-date-block">
+          <div class="entry-day">${d.getDate()}</div>
+          <div class="entry-month">${MONTHS_SHORT[d.getMonth()]}</div>
+        </div>
+        <div class="entry-divider"></div>
+        <div class="entry-meta">
+          <div class="entry-weekday">${getWeekday(k)}</div>
+          ${preview ? `<div class="entry-preview">${preview}</div>` : ''}
+          ${moods.length ? `<div class="entry-moods">${moodTags}</div>` : ''}
+        </div>
+        <span class="entry-arrow">›</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function viewEntry(dateStr) {
+  currentDate = dateStr;
+  const data = loadData();
+  const e = data[dateStr];
+  if (!e) return;
+
+  document.getElementById('viewTopTitle').textContent = formatDateShort(dateStr);
+
+  const moods = (e.moods || []).map(m => `<span class="view-mood-tag">${m}</span>`).join('');
+
+  const shadowQs = [
+    { id: 'q1', label: QS[0] }, { id: 'q2', label: QS[1] }, { id: 'q3', label: QS[2] }
+  ];
+  const bodyQs = [
+    { id: 'q4', label: QS[3] }, { id: 'q5', label: QS[4] }, { id: 'q6', label: QS[5] }
+  ];
+  const eveningQs = [
+    { id: 'q7', label: QS[6] }, { id: 'q8', label: QS[7] },
+    { id: 'q9', label: QS[8] }, { id: 'q10', label: QS[9] }, { id: 'q11', label: QS[10] }
+  ];
+
+  const phraseItems = PHRASES.map((ph, i) => {
+    const ans = e['p'+i];
+    if (!ans) return '';
+    return `<div class="view-q">
+      <div class="view-q-label">${ph}</div>
+      <div class="view-q-answer">${ans.replace(/\n/g,'<br>')}</div>
+    </div>`;
+  }).filter(Boolean).join('');
+
+  function renderQGroup(qs) {
+    return qs.map(q => {
+      const ans = e[q.id];
+      return `<div class="view-q">
+        <div class="view-q-label">${q.label}</div>
+        ${ans ? `<div class="view-q-answer">${ans.replace(/\n/g,'<br>')}</div>` : '<div class="view-q-empty">— не заполнено —</div>'}
+      </div>`;
+    }).join('');
+  }
+
+  document.getElementById('viewContent').innerHTML = `
+    <div class="view-date-hero">
+      <div class="view-date-big">${formatDateHero(dateStr)}</div>
+      <div class="view-date-sub">${getWeekday(dateStr)}</div>
+    </div>
+
+    ${moods ? `<div class="view-moods">${moods}</div>` : ''}
+
+    <div class="view-section">
+      <span class="view-section-title">🔴 Дикая Женщина — Тень</span>
+      ${renderQGroup(shadowQs)}
+    </div>
+
+    <div class="view-section">
+      <span class="view-section-title">🫀 Тело</span>
+      ${renderQGroup(bodyQs)}
+    </div>
+
+    ${phraseItems ? `<div class="view-section">
+      <span class="view-section-title">🌿 Что мне нельзя</span>
+      ${phraseItems}
+    </div>` : ''}
+
+    <div class="view-section">
+      <span class="view-section-title">🌙 Итог дня</span>
+      ${renderQGroup(eveningQs)}
+    </div>
+
+    <button class="delete-btn" onclick="deleteEntry('${dateStr}')">✕ Удалить эту запись</button>
+  `;
+
+  showScreen('view-screen');
+}
+
+function editCurrentEntry() {
+  const data = loadData();
+  document.getElementById('entryTopTitle').textContent = formatDateHero(currentDate);
+  clearForm();
+  if (data[currentDate]) fillForm(data[currentDate]);
+  showScreen('entry-screen');
+}
+
+function deleteEntry(dateStr) {
+  if (!confirm('Удалить эту запись навсегда?')) return;
+  const data = loadData();
+  delete data[dateStr];
+  saveData(data);
+  goHome();
+}
+
+function togglePhrase(item, id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains('open');
+  document.querySelectorAll('.phrase-expand').forEach(e => e.classList.remove('open'));
+  document.querySelectorAll('.phrase-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) {
+    box.classList.add('open');
+    item.classList.add('open');
+    setTimeout(() => box.querySelector('textarea').focus(), 80);
+  }
+}
+
+// cover button
+document.querySelector('.cover-btn').onclick = goHome;
+</script>
+</body>
+</html>
