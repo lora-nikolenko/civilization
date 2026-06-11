@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дневник Тени — 8 Архетипов</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #F5EFE6;
+  --bone: #E8DDD0;
+  --bg: #FAF6F1;
+  --text: #1E1410;
+  --text-mid: #5C3A1E;
+  --sand: #C4A882;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* SCREENS */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* ── COVER ── */
+#cover {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 3rem 2rem;
+  background: #1E1410; position: relative; overflow: hidden;
+}
+#cover::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 25%, rgba(139,32,32,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 75%, rgba(74,82,64,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(196,168,130,0.04) 0%, transparent 70%);
+}
+.cover-symbol { font-size: 3.5rem; display: block; margin-bottom: 1.5rem; position: relative; animation: fadeUp 1s ease both; }
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 3rem); font-weight: 300;
+  color: var(--cream); letter-spacing: 0.08em; text-transform: uppercase;
+  line-height: 1.2; position: relative; animation: fadeUp 1s 0.15s ease both;
+}
+.cover-title em { display: block; font-style: italic; font-size: 0.55em; color: #C4A882; letter-spacing: 0.2em; margin-top: 0.5rem; }
+.cover-orn { display: flex; align-items: center; gap: 1rem; margin: 2rem 0; position: relative; animation: fadeUp 1s 0.25s ease both; }
+.cover-orn-line { width: 60px; height: 1px; }
+.cover-orn-line:first-child { background: linear-gradient(90deg, transparent, #C4A882); }
+.cover-orn-line:last-child { background: linear-gradient(90deg, #C4A882, transparent); }
+.cover-orn-dot { width: 5px; height: 5px; background: #C4A882; border-radius: 50%; }
+.cover-sub { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(245,239,230,0.35); position: relative; animation: fadeUp 1s 0.3s ease both; }
+.cover-btn {
+  margin-top: 3rem; padding: 0.9rem 2.8rem;
+  border: 1px solid rgba(196,168,130,0.35); background: transparent;
+  color: #C4A882; font-family: 'Jost', sans-serif;
+  font-size: 0.73rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: pointer; border-radius: 1px; transition: all 0.3s;
+  position: relative; animation: fadeUp 1s 0.5s ease both;
+}
+.cover-btn:hover { background: rgba(196,168,130,0.1); border-color: #C4A882; color: var(--cream); }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── HOME ── */
+#home { background: var(--bg); }
+.home-header {
+  background: #1E1410; padding: 1.8rem 1.5rem;
+  text-align: center; position: relative; overflow: hidden;
+}
+.home-header::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(139,32,32,0.18) 0%, transparent 60%);
+}
+.home-header-symbol { font-size: 1.8rem; display: block; margin-bottom: 0.5rem; position: relative; }
+.home-header h1 {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;
+  font-weight: 300; color: var(--cream); letter-spacing: 0.07em; position: relative;
+}
+.home-header h1 em { font-style: italic; color: #C4A882; }
+.home-header p { font-size: 0.7rem; color: rgba(245,239,230,0.35); margin-top: 0.3rem; letter-spacing: 0.15em; text-transform: uppercase; position: relative; }
+
+.archetypes-grid { padding: 1.5rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.grid-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); margin-bottom: 0.5rem; display: block; }
+
+.archetype-card {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem; border-radius: 4px;
+  cursor: pointer; transition: all 0.2s;
+  border: 1px solid transparent;
+  background: white;
+}
+.archetype-card:hover { transform: translateX(4px); }
+
+.arch-color-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.arch-emoji { font-size: 1.4rem; flex-shrink: 0; }
+.arch-info { flex: 1; min-width: 0; }
+.arch-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; line-height: 1.2; }
+.arch-subtitle { font-size: 0.7rem; font-weight: 300; color: var(--text-mid); margin-top: 0.15rem; letter-spacing: 0.05em; }
+.arch-count { font-size: 0.68rem; color: var(--sand); font-weight: 500; flex-shrink: 0; }
+.arch-arrow { color: var(--sand); font-size: 0.9rem; flex-shrink: 0; }
+
+/* ── TOP BAR ── */
+.top-bar {
+  display: flex; align-items: center; gap: 0.8rem;
+  height: 52px; padding: 0 1.2rem;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+.back-btn {
+  background: none; border: none; color: rgba(245,239,230,0.7);
+  font-size: 1.1rem; cursor: pointer; padding: 0.3rem;
+  transition: color 0.2s; line-height: 1;
+}
+.back-btn:hover { color: var(--cream); }
+.top-bar-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--cream); flex: 1; }
+.top-bar-action {
+  background: none; border: 1px solid rgba(245,239,230,0.2);
+  color: rgba(245,239,230,0.65); font-family: 'Jost', sans-serif;
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase;
+  padding: 0.35rem 0.85rem; border-radius: 1px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.top-bar-action:hover { background: rgba(245,239,230,0.1); color: var(--cream); }
+
+/* ── ARCHETYPE HOME ── */
+#arch-home { background: var(--bg); }
+.arch-hero {
+  padding: 2rem 1.5rem 1.8rem; text-align: center;
+  position: relative; overflow: hidden;
+}
+.arch-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.08) 0%, transparent 60%); }
+.arch-hero-emoji { font-size: 2.8rem; display: block; margin-bottom: 0.8rem; position: relative; }
+.arch-hero-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--cream); letter-spacing: 0.06em; position: relative; }
+.arch-hero-center { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,239,230,0.4); margin-top: 0.35rem; position: relative; }
+
+.arch-light-shadow {
+  display: flex; gap: 0.5rem; padding: 1rem 1.2rem; margin: 0;
+}
+.ls-block { flex: 1; padding: 0.8rem 1rem; border-radius: 4px; }
+.ls-label { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.35rem; display: block; }
+.ls-items { font-size: 0.78rem; line-height: 1.65; font-weight: 300; }
+
+.new-entry-btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  margin: 0 1.2rem 0; padding: 0.95rem;
+  border: none; border-radius: 3px;
+  font-family: 'Jost', sans-serif; font-size: 0.78rem;
+  font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--cream); cursor: pointer; transition: all 0.2s;
+  width: calc(100% - 2.4rem);
+}
+
+.history-section { padding: 1.3rem 1.2rem; }
+.history-label { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sand); margin-bottom: 0.8rem; display: block; }
+
+.empty-state { text-align: center; padding: 2.5rem 1rem; font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-style: italic; color: rgba(92,58,30,0.35); line-height: 1.7; }
+
+.entry-card {
+  background: white; border: 1px solid rgba(196,168,130,0.2);
+  border-radius: 4px; padding: 0.9rem 1.1rem;
+  margin-bottom: 0.5rem; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; gap: 0.9rem;
+}
+.entry-card:active { transform: scale(0.99); }
+.entry-date-block { min-width: 40px; text-align: center; }
+.entry-day { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 300; color: var(--text); line-height: 1; }
+.entry-month { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--sand); }
+.entry-vline { width: 1px; height: 32px; background: rgba(196,168,130,0.25); }
+.entry-meta { flex: 1; min-width: 0; }
+.entry-weekday { font-size: 0.67rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sand); margin-bottom: 0.2rem; }
+.entry-preview { font-size: 0.83rem; color: var(--text-mid); font-weight: 300; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.entry-moods { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.3rem; }
+.entry-mood-tag { font-size: 0.6rem; padding: 0.12rem 0.45rem; border: 1px solid rgba(196,168,130,0.35); border-radius: 10px; color: var(--text-mid); }
+.entry-arrow { color: var(--sand); font-size: 0.85rem; flex-shrink: 0; }
+
+/* ── ENTRY FORM ── */
+#entry-screen { background: var(--bg); }
+.entry-wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.3rem 5rem; }
+
+.section-block { margin-bottom: 2.2rem; }
+.section-eyebrow { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); display: block; margin-bottom: 0.35rem; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 300; color: var(--text); line-height: 1.2; margin-bottom: 1.1rem; }
+.section-title em { font-style: italic; color: var(--text-mid); }
+
+.divider { display: flex; align-items: center; gap: 0.7rem; margin: 0.4rem 0 1.3rem; }
+.divider-line { flex: 1; height: 1px; background: var(--sand); opacity: 0.25; }
+.divider-dot { width: 3px; height: 3px; background: var(--sand); border-radius: 50%; opacity: 0.4; }
+
+.block-light { border-left: 3px solid #4A5240; padding: 0.85rem 1.1rem; background: rgba(74,82,64,0.05); border-radius: 0 4px 4px 0; margin-bottom: 0.9rem; }
+.block-shadow-r { padding: 0.85rem 1.1rem; border-radius: 0 4px 4px 0; margin-bottom: 0.9rem; }
+.block-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.4rem; display: block; }
+.block-light .block-label { color: #4A5240; }
+.block-light p, .block-shadow-r p { font-size: 0.86rem; line-height: 1.68; color: var(--text); font-weight: 300; }
+
+.mood-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sand); display: block; margin-bottom: 0.65rem; }
+.mood-wrap { display: flex; flex-wrap: wrap; gap: 0.38rem; margin-bottom: 1.8rem; }
+.mood-btn {
+  padding: 0.32rem 0.8rem; border: 1px solid rgba(196,168,130,0.32);
+  border-radius: 20px; background: transparent;
+  font-family: 'Jost', sans-serif; font-size: 0.77rem;
+  color: var(--text-mid); cursor: pointer; transition: all 0.18s;
+}
+.mood-btn.sel { color: var(--cream); }
+
+.q-item { margin-bottom: 1.5rem; }
+.q-label { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.88rem; line-height: 1.5; color: var(--text); margin-bottom: 0.5rem; }
+.q-num { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--sand); min-width: 20px; padding-top: 1px; }
+.q-area {
+  width: 100%; min-height: 68px; background: transparent;
+  border: none; border-bottom: 1.5px solid rgba(196,168,130,0.4);
+  font-family: 'Jost', sans-serif; font-size: 0.86rem; color: var(--text);
+  line-height: 1.8; padding: 0.4rem 0; resize: vertical; outline: none; transition: border-color 0.2s;
+}
+.q-area::placeholder { color: rgba(92,58,30,0.25); font-style: italic; }
+
+.phrase-list { list-style: none; }
+.phrase-item {
+  padding: 0.78rem 1rem; margin-bottom: 0.4rem;
+  border: 1px solid rgba(196,168,130,0.25); border-radius: 3px;
+  font-family: 'Cormorant Garamond', serif; font-size: 0.98rem; font-style: italic;
+  color: var(--text-mid); cursor: pointer; transition: all 0.18s;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.phrase-dash { color: var(--sand); }
+.phrase-expand { display: none; padding: 0.5rem 0 0.7rem 1.5rem; }
+.phrase-expand.open { display: block; }
+
+.practice-card {
+  border-radius: 5px; padding: 1.2rem 1.4rem; margin-bottom: 0.75rem;
+  position: relative; overflow: hidden;
+}
+.practice-card::after { content: ''; position: absolute; right: -18px; bottom: -18px; width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+.practice-tag { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,239,230,0.55); display: block; margin-bottom: 0.4rem; }
+.practice-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; color: var(--cream); margin-bottom: 0.45rem; }
+.practice-card p { font-size: 0.82rem; line-height: 1.72; color: rgba(245,239,230,0.65); font-weight: 300; position: relative; }
+
+.quote-block { padding: 1.3rem 1.4rem; border-radius: 5px; text-align: center; margin: 1.3rem 0; }
+.quote-block p { font-family: 'Cormorant Garamond', serif; font-size: 0.98rem; font-style: italic; line-height: 1.72; }
+.quote-block p span { opacity: 0.85; }
+
+.save-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 1px solid rgba(196,168,130,0.2);
+  padding: 0.85rem 1.3rem; display: flex; gap: 0.6rem; z-index: 200;
+  box-shadow: 0 -3px 16px rgba(0,0,0,0.06);
+}
+.save-bar-btn {
+  flex: 1; padding: 0.82rem; border: none; border-radius: 2px;
+  font-family: 'Jost', sans-serif; font-size: 0.73rem;
+  font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-secondary { background: transparent; color: var(--text-mid); border: 1px solid rgba(196,168,130,0.32); }
+.btn-secondary:hover { color: #8B2020; border-color: #8B2020; }
+.btn-primary { color: var(--cream); }
+
+/* ── VIEW ── */
+#view-screen { background: var(--bg); }
+.view-wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.3rem 4rem; }
+.view-date-hero { border-radius: 5px; padding: 1.4rem; margin-bottom: 1.6rem; text-align: center; position: relative; overflow: hidden; }
+.view-date-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.07) 0%, transparent 60%); }
+.view-date-big { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: var(--cream); position: relative; }
+.view-date-sub { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,239,230,0.38); margin-top: 0.25rem; position: relative; }
+.view-moods { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.6rem; justify-content: center; }
+.view-mood-tag { font-size: 0.72rem; padding: 0.28rem 0.75rem; border: 1px solid rgba(196,168,130,0.3); border-radius: 20px; color: var(--text-mid); }
+.view-section { margin-bottom: 1.8rem; }
+.view-section-title { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sand); margin-bottom: 0.9rem; display: block; }
+.view-q { margin-bottom: 1rem; }
+.view-q-label { font-size: 0.78rem; color: rgba(92,58,30,0.5); margin-bottom: 0.25rem; font-weight: 300; }
+.view-q-answer { font-size: 0.9rem; line-height: 1.72; color: var(--text); font-weight: 300; border-left: 2px solid rgba(196,168,130,0.3); padding-left: 0.85rem; }
+.view-q-empty { font-size: 0.82rem; color: rgba(92,58,30,0.28); font-style: italic; }
+.delete-btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  width: 100%; padding: 0.65rem; margin-top: 2rem;
+  background: transparent; border: 1px solid rgba(139,32,32,0.2);
+  color: rgba(139,32,32,0.45); border-radius: 2px;
+  font-family: 'Jost', sans-serif; font-size: 0.7rem;
+  font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+}
+.delete-btn:hover { background: rgba(139,32,32,0.04); color: #8B2020; border-color: #8B2020; }
+
+@media (max-width: 480px) {
+  .entry-wrap, .view-wrap { padding: 1.5rem 1rem 5rem; }
+  .save-bar { padding: 0.75rem 1rem; }
+  .arch-light-shadow { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="screen active" id="cover">
+  <div style="background:#1E1410;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 15% 25%,rgba(139,32,32,.2) 0%,transparent 50%),radial-gradient(ellipse at 85% 75%,rgba(74,82,64,.15) 0%,transparent 50%);"></div>
+    <span class="cover-symbol">✦</span>
+    <h1 class="cover-title">Дневник Тени<em>Восемь архетипов женской силы</em></h1>
+    <div class="cover-orn"><div class="cover-orn-line"></div><div class="cover-orn-dot"></div><div class="cover-orn-line"></div></div>
+    <p class="cover-sub">Энергетические центры · Возвращение к себе</p>
+    <button class="cover-btn" onclick="goHome()">Войти в дневник →</button>
+  </div>
+</div>
+
+<!-- HOME — выбор архетипа -->
+<div class="screen" id="home">
+  <div class="home-header">
+    <span class="home-header-symbol">✦</span>
+    <h1><em>Дневник Тени</em></h1>
+    <p>Выбери архетип для работы</p>
+  </div>
+  <div class="archetypes-grid">
+    <span class="grid-label">Восемь архетипов</span>
+  </div>
+</div>
+
+<!-- ARCHETYPE HOME — история записей -->
+<div class="screen" id="arch-home">
+  <div class="top-bar" id="archTopBar">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <span class="top-bar-title" id="archTopTitle"></span>
+  </div>
+  <div class="arch-hero" id="archHero"></div>
+  <div class="arch-light-shadow" id="archLightShadow"></div>
+  <button class="new-entry-btn" id="archNewBtn" onclick="openNewEntry()">✦ Запись на сегодня</button>
+  <div class="history-section">
+    <span class="history-label">История записей</span>
+    <div id="historyList"></div>
+  </div>
+</div>
+
+<!-- ENTRY FORM -->
+<div class="screen" id="entry-screen">
+  <div class="top-bar" id="entryTopBar">
+    <button class="back-btn" onclick="goArchHome()">←</button>
+    <span class="top-bar-title" id="entryTopTitle"></span>
+  </div>
+  <div class="entry-wrap" id="entryWrap"></div>
+  <div class="save-bar">
+    <button class="save-bar-btn btn-secondary" onclick="goArchHome()">← Назад</button>
+    <button class="save-bar-btn btn-primary" id="saveBtn" onclick="saveEntry()">Сохранить день</button>
+  </div>
+</div>
+
+<!-- VIEW -->
+<div class="screen" id="view-screen">
+  <div class="top-bar" id="viewTopBar">
+    <button class="back-btn" onclick="goArchHome()">←</button>
+    <span class="top-bar-title" id="viewTopTitle"></span>
+    <button class="top-bar-action" onclick="editCurrentEntry()">Редактировать</button>
+  </div>
+  <div class="view-wrap" id="viewContent"></div>
+</div>
+
+<script>
+// ════════════════════════════════════
+// ДАННЫЕ АРХЕТИПОВ
+// ════════════════════════════════════
+const ARCHETYPES = [
+  {
+    id: 'wild',
+    emoji: '🐺',
+    name: 'Дикая Женщина',
+    center: 'Корневой центр · 🔴',
+    color: '#6B1A1A',
+    colorLight: '#8B2020',
+    colorBg: 'rgba(139,32,32,0.08)',
+    light: 'Жизненность · Интуиция · Сексуальность · Связь с телом · Творчество · Свобода',
+    shadowSuppress: 'Депрессия · Онемение · Потеря желания · Хроническая усталость · «Я не живая»',
+    shadowCapture: 'Хаос · Разрушительность · Импульсивность · Зависимость от интенсивности',
+    moods: ['живая','онемевшая','в теле','далеко от себя','дикая','подавленная','свободная','скованная'],
+    questions: [
+      { section: 'Архетип', title: 'Дикая Женщина — Тень', qs: [
+        { q: 'Когда ты последний раз чувствовала себя по-настоящему живой? Что тогда происходило?', ph: 'Пиши без цензуры...' },
+        { q: 'Что ты запрещаешь себе хотеть? Какое желание кажется «слишком много»?', ph: 'Позволь себе честность...' },
+        { q: 'В каких ситуациях ты теряешь себя — становишься удобной, правильной, незаметной?', ph: 'Вспомни конкретные моменты...' },
+      ]},
+      { section: 'Тело', title: 'Связь с телом', qs: [
+        { q: 'Где в теле живёт напряжение, онемение или пустота прямо сейчас?', ph: 'Опиши ощущения, не анализируя...' },
+        { q: 'Что даёт твоему телу подлинное удовольствие — не «правильное», а настоящее?', ph: 'Позволь себе признать это...' },
+      ]},
+      { section: 'Вечер', title: 'Итог дня', qs: [
+        { q: 'Где сегодня я предала себя?', ph: 'Любой момент, когда пошла против себя...' },
+        { q: 'Где я была настоящей?', ph: 'Хоть маленький момент подлинности...' },
+        { q: 'Что я подавила сегодня?', ph: 'Эмоция, желание, слово, движение...' },
+        { q: 'Какую свою часть я сегодня испугалась?', ph: 'Какая твоя часть казалась слишком опасной...' },
+      ]},
+    ],
+    phrases: ['Мне нельзя быть…','Женщина не должна…','Если я проявлю силу…','Если я скажу правду…','Если я перестану быть удобной…','Если я покажу злость…'],
+    practices: [
+      { tag: 'Тряска', title: 'Разморозка дикости', text: 'Встань, согни колени, начни мелко трясти ногами — потом всё тело. 3–5 минут. Никакого контроля.' },
+      { tag: 'Земля', title: 'Заземление через стопы', text: 'Босиком на пол. Надави. Дыши в живот. Скажи вслух: «Я здесь. Я живая. Моё тело — мой дом.»' },
+    ],
+    quote: { text: 'Дикая Женщина не разрушает.', span: 'Она разрушает то, что уже мертво — чтобы могло вырасти живое.' }
+  },
+  {
+    id: 'seductress',
+    emoji: '🌹',
+    name: 'Соблазнительница',
+    center: 'Сексуальный центр · 🟠',
+    color: '#7A3010',
+    colorLight: '#C4511A',
+    colorBg: 'rgba(196,81,26,0.07)',
+    light: 'Эротическая энергия · Магнетизм · Наслаждение · Контакт с желанием · Творческая сила',
+    shadowSuppress: 'Стыд тела · Блок сексуальности · Отключённость от удовольствия',
+    shadowCapture: 'Зависимость от внимания · Манипуляция через желание · Страх старения · Конкуренция с женщинами',
+    moods: ['притягивающая','отстранённая','в удовольствии','стыдящаяся','желанная','незаметная','магнетичная','закрытая'],
+    questions: [
+      { section: 'Архетип', title: 'Соблазнительница — Тень', qs: [
+        { q: 'Что в твоей сексуальности тебя пугает или стыдит?', ph: 'Без цензуры...' },
+        { q: 'Используешь ли ты своё обаяние и привлекательность, чтобы получить нужное? Как ты к этому относишься?', ph: 'Честно с собой...' },
+        { q: 'Где ты отключена от удовольствия — в теле, в жизни, в отношениях?', ph: 'Где нет вкуса...' },
+      ]},
+      { section: 'Желание', title: 'Контакт с желанием', qs: [
+        { q: 'Что ты по-настоящему хочешь — не то, что положено, а то, что хочется?', ph: 'Без оправданий...' },
+        { q: 'Как ты обращаешься с вниманием других людей к тебе? Принимаешь или отталкиваешь?', ph: 'Наблюдай честно...' },
+      ]},
+      { section: 'Вечер', title: 'Итог дня', qs: [
+        { q: 'Где сегодня я позволила себе быть притягивающей?', ph: '' },
+        { q: 'Где я спрятала своё желание или стыдилась его?', ph: '' },
+        { q: 'Что мне нельзя хотеть — и почему?', ph: '' },
+      ]},
+    ],
+    phrases: ['Моё тело…','Желание для меня…','Если я буду притягивающей…','Моя сексуальность…','Если мужчины/женщины заметят меня…'],
+    practices: [
+      { tag: 'Тело', title: 'Танец для себя', text: 'Закрой дверь. Включи музыку которую ты никому не показываешь. Двигайся только для себя — не красиво, а настоящее. 5 минут.' },
+      { tag: 'Контакт', title: 'Смазывание тела', text: 'Нанеси масло на тело медленно, присутствуя. Не как ритуал красоты — как встреча с собой. Замечай, где тело напряжено или онемело.' },
+    ],
+    quote: { text: 'Сексуальность — это не то, что ты делаешь.', span: 'Это то, чем ты являешься. Твоя жизненная сила.' }
+  },
+  {
+    id: 'mother',
+    emoji: '🌻',
+    name: 'Мать',
+    center: 'Центр солнечного сплетения · 🟡',
+    color: '#5C4A00',
+    colorLight: '#B8860B',
+    colorBg: 'rgba(184,134,11,0.07)',
+    light: 'Забота · Создание жизни · Поддержка · Питание · Устойчивость',
+    shadowSuppress: 'Растворение в других · Ощущение ненужности без роли заботящейся',
+    shadowCapture: 'Гиперконтроль · Спасательство · Эмоциональное поглощение · Контроль через любовь',
+    moods: ['питающая','опустошённая','в центре','растворённая','заботливая','обиженная','устойчивая','контролирующая'],
+    questions: [
+      { section: 'Архетип', title: 'Мать — Тень', qs: [
+        { q: 'О ком ты заботишься больше, чем о себе? Что стоит за этой заботой — любовь или страх?', ph: 'Честно...' },
+        { q: 'Что случится если ты перестанешь заботиться обо всех? Что ты чувствуешь от этой мысли?', ph: 'Позволь страху проявиться...' },
+        { q: 'Где твоя забота контролирует — а не поддерживает?', ph: 'Конкретные примеры...' },
+      ]},
+      { section: 'Питание', title: 'Питаешь ли себя?', qs: [
+        { q: 'Как ты питаешь себя — не других, а именно себя?', ph: 'Что восстанавливает тебя...' },
+        { q: 'Что ты даёшь другим, но не позволяешь получить себе?', ph: 'Забота, внимание, время...' },
+      ]},
+      { section: 'Вечер', title: 'Итог дня', qs: [
+        { q: 'Где сегодня я заботилась о себе?', ph: '' },
+        { q: 'Где я спасала вместо того чтобы поддерживать?', ph: '' },
+        { q: 'Что я сегодня дала — и что взяла для себя?', ph: '' },
+        { q: 'Где я чувствовала обиду от того что отдаю?', ph: '' },
+      ]},
+    ],
+    phrases: ['Если я не позабочусь…','Мои нужды…','Просить о помощи для меня…','Без своей роли заботящейся я…'],
+    practices: [
+      { tag: 'Питание', title: 'Три нужды прямо сейчас', text: 'Спроси себя: что мне нужно прямо сейчас — телесно, эмоционально, духовно? Запиши три ответа и дай себе хотя бы одно из трёх.' },
+      { tag: 'Граница', title: 'Одно «нет» в день', text: 'Найди сегодня один запрос — маленький или большой — на который ты скажешь нет. Без объяснений. Просто нет.' },
+    ],
+    quote: { text: 'Нельзя налить из пустого сосуда.', span: 'Сначала наполни себя.' }
+  },
+  {
+    id: 'goodgirl',
+    emoji: '🌸',
+    name: 'Хорошая Девочка',
+    center: 'Сердечный центр · 🟢',
+    color: '#1A4A2E',
+    colorLight: '#2E7D4F',
+    colorBg: 'rgba(46,125,79,0.07)',
+    light: 'Забота · Эмпатия · Мягкость · Способность любить',
+    shadowSuppress: 'Подавленный гнев · Зависимость от одобрения · Хроническое самоотречение',
+    shadowCapture: 'Отсутствие границ · Страх конфликта · «Чтобы меня любили — я должна быть удобной»',
+    moods: ['мягкая','злая','одобренная','отвергнутая','добрая','удобная','настоящая','угождающая'],
+    questions: [
+      { section: 'Архетип', title: 'Хорошая Девочка — Тень', qs: [
+        { q: 'Где ты говоришь «да» когда хочешь сказать «нет»? Приведи конкретный пример из этой недели.', ph: 'Конкретно...' },
+        { q: 'Чьего одобрения ты больше всего боишься потерять?', ph: 'Имя, отношения...' },
+        { q: 'Где живёт твой подавленный гнев? В каких ситуациях ты злишься, но не показываешь это?', ph: 'Гнев — это граница...' },
+      ]},
+      { section: 'Гнев', title: 'Работа с подавленной силой', qs: [
+        { q: 'Что тебя злит но ты делаешь вид что всё в порядке?', ph: 'Позволь злости быть...' },
+        { q: 'Что ты хотела бы сказать — но не говоришь?', ph: 'Кому и что...' },
+      ]},
+      { section: 'Вечер', title: 'Итог дня', qs: [
+        { q: 'Где сегодня я была собой — а не удобной?', ph: '' },
+        { q: 'Где я подавила своё «нет»?', ph: '' },
+        { q: 'Что я сделала из страха а не из любви?', ph: '' },
+        { q: 'Что мне хотелось сказать — но я промолчала?', ph: '' },
+      ]},
+    ],
+    phrases: ['Если я скажу «нет»…','Если я разозлюсь…','Если я не буду помогать…','Мой гнев…','Если меня не одобрят…'],
+    practices: [
+      { tag: 'Гнев', title: 'Письмо без отправки', text: 'Напиши письмо человеку с которым ты «всегда в порядке» — и скажи в нём всё что никогда не говоришь. Не отправляй. Сожги или удали.' },
+      { tag: 'Граница', title: 'Маленькое «нет»', text: 'Сегодня скажи одно небольшое «нет» без объяснения причин. Просто «нет, не смогу». Заметь что происходит внутри.' },
+    ],
+    quote: { text: 'Твой гнев — это не монстр.', span: 'Это страж твоих границ. Он знает, где тебя нарушают.' }
+  },
+  {
+    id: 'queen',
+    emoji: '👑',
+    name: 'Королева',
+    center: 'Горловой центр · ⚪️',
+    color: '#2C2C4A',
+    colorLight: '#4A4A7A',
+    colorBg: 'rgba(74,74,122,0.07)',
+    light: 'Достоинство · Зрелость · Границы · Лидерство · Внутренняя опора',
+    shadowSuppress: 'Боится занимать пространство · Извиняется за существование · Обесценивает себя',
+    shadowCapture: 'Высокомерие · Холодность · Нарциссизм · Потребность доминировать',
+    moods: ['достойная','маленькая','уверенная','извиняющаяся','зрелая','невидимая','опорная','высокомерная'],
+    questions: [
+      { section: 'Архетип', title: 'Королева — Тень', qs: [
+        { q: 'В каких ситуациях ты извиняешься за своё существование — за то что занимаешь место, высказываешь мнение, просишь о чём-то?', ph: 'Конкретные ситуации...' },
+        { q: 'Где ты боишься занимать пространство — физически, голосом, присутствием?', ph: 'Где ты уменьшаешься...' },
+        { q: 'Когда ты используешь власть или авторитет чтобы контролировать а не вести?', ph: 'Честно с собой...' },
+      ]},
+      { section: 'Достоинство', title: 'Внутренняя опора', qs: [
+        { q: 'Что ты знаешь о себе точно — не зависимо от того что думают другие?', ph: 'Твои ценности, твоя суть...' },
+        { q: 'Где ты ждёшь разрешения от других — на то что уже имеешь право?', ph: 'Где ищешь подтверждения...' },
+      ]},
+      { section: 'Вечер', title: 'Итог дня', qs: [
+        { q: 'Где сегодня я говорила из места достоинства?', ph: '' },
+        { q: 'Где я уменьшилась, чтобы не напугать других?', ph: '' },
+        { q: 'Что я хотела сказать — и не сказала, потому что боялась занять слишком много места?', ph: '' },
+      ]},
+    ],
+    phrases: ['Если я займу своё место…','Моя власть…','Если я не извинюсь…','Достоинство для меня…','Если я стану лидером…'],
+    practices: [
+      { tag: 'Голос', title: 'Говори первой', text: 'В следующем разговоре или встрече — скажи своё мнение первой. Не жди пока другие. Не смягчай. Просто скажи.' },
+      { tag: 'Тело', title: 'Поза Королевы', text: 'Встань прямо. Расправь плечи. Почувствуй пол под ногами. Дыши в грудь. Оставайся в этой позе 2 минуты. Замечай что меняется.' },
+    ],
+    quote: { text: 'Королева не просит разрешения существовать.', span: 'Она входит — и пространство меняется.' }
+  },
+  {
+    id: 'witch',
+    emoji: '🌙',
+    name: 'Ведьма',
+    center: 'Аджна центр · 🔵',
+    color: '#0A2A4A',
+    colorLight: '#1A4A7A',
+    colorBg: 'rgba(26,74,122,0.07)',
+    light: 'Интуиция · Мудрость · Психологическое видение · Способность видеть правду',
+    shadowSuppress: 'Страх собственной силы · Страх быть «опасной» · Страх говорить правду',
+    shadowCapture: 'Манипуляция · Эмоциональная власть · Скрытая агрессия · Желание контролировать',
+    moods: ['видящая','слепая','в силе','в страхе','мудрая','подавленная','интуитивная','манипулирующая'],
+    questions: [
+      { section: 'Архетип', title: 'Ведьма — Тень', qs: [
+        { q: 'Что ты видишь в людях и ситуациях — но молчишь об этом? Почему?', ph: 'Что замечаешь но не говоришь...' },
+        { q: 'Где ты боишься своей силы или своей правды?', ph: 'Что кажется «слишком опасным» в тебе...' },
+        { q: 'Используешь ли ты своё видение и понимание чтобы манипулировать — или чтобы освещать путь?', ph: 'Честная инвентаризация...' },
+      ]},
+      { section: 'Интуиция', title: 'Голос внутри', qs: [
+        { q: 'Что твоя интуиция говорит тебе прямо сейчас — что ты продолжаешь игнорировать?', ph: 'Она уже знает...' },
+        { q: 'Когда ты последний раз доверилась своему знанию вместо чужого мнения?', ph: 'Конкретный случай...' },
+      ]},
+      { section: 'Вечер', title: 'Итог дня', qs: [
+        { q: 'Что я сегодня видела — но не сказала?', ph: '' },
+        { q: 'Где я использовала своё понимание честно — а где манипулятивно?', ph: '' },
+        { q: 'Что хотела сказать моя интуиция — и послушала ли я её?', ph: '' },
+      ]},
+    ],
+    phrases: ['Моя сила пугает меня потому что…','Если я скажу правду…','Моя интуиция говорит…','Если люди узнают что я вижу…'],
+    practices: [
+      { tag: 'Видение', title: 'Три правды', text: 'Запиши три вещи, которые ты знаешь прямо сейчас — но избегаешь признавать. Не анализируй. Просто запиши что видишь.' },
+      { tag: 'Голос', title: 'Скажи правду маленькой', text: 'Найди сегодня одну ситуацию где ты обычно молчишь — и скажи то что думаешь. Начни с маленькой правды.' },
+    ],
+    quote: { text: 'Ведьму сжигали не за зло.', span: 'За то что она видела.' }
+  },
+  {
+    id: 'woundedgirl',
+    emoji: '🌊',
+    name: 'Раненая Девочка',
+    center: 'Коронарный центр · 🟣 инь',
+    color: '#3A1A4A',
+    colorLight: '#6A2A8A',
+    colorBg: 'rgba(106,42,138,0.07)',
+    light: 'Чувствительность · Открытость · Эмоциональность · Способность доверять',
+    shadowSuppress: 'Зависимость · Беспомощность · Жертвенность · Ожидание спасения',
+    shadowCapture: 'Эмоциональная регрессия · Управление отношениями через боль',
+    moods: ['открытая','закрытая','доверяющая','раненая','чувствительная','оцепеневшая','нежная','ждущая спасения'],
+    questions: [
+      { section: 'Архетип', title: 'Раненая Девочка — Тень', qs: [
+        { q: 'Где ты ждёшь что кто-то придёт и спасёт тебя — решит, выберет, починит?', ph: 'Честно...' },
+        { q: 'Как твоя боль управляет твоими отношениями? Где ты используешь слабость чтобы получить близость?', ph: 'Без осуждения себя...' },
+        { q: 'Какое старое ранение ты продолжаешь переживать в новых отношениях?', ph: 'Какой сценарий повторяется...' },
+      ]},
+      { section: 'Исцеление', title: 'Встреча с болью', qs: [
+        { q: 'Что маленькая часть тебя всё ещё ждёт? От кого?', ph: 'Родители, партнёр, мир...' },
+        { q: 'Что тебе нужно дать себе самой — того что ты ждёшь от других?', ph: 'Принятие, защита, любовь...' },
+      ]},
+      { section: 'Вечер', title: 'Итог дня', qs: [
+        { q: 'Где сегодня я действовала из боли а не из силы?', ph: '' },
+        { q: 'Где я позволила себе быть уязвимой — по-настоящему, не манипулятивно?', ph: '' },
+        { q: 'Что я сегодня дала себе сама — вместо того чтобы ждать от другого?', ph: '' },
+      ]},
+    ],
+    phrases: ['Меня спасёт…','Когда меня любят — я…','Без другого человека я…','Моя боль…','Я жду что…'],
+    practices: [
+      { tag: 'Исцеление', title: 'Письмо внутреннему ребёнку', text: 'Напиши письмо себе — той, которой было больно. Что ты хочешь ей сказать? Что она хотела услышать тогда — и не услышала?' },
+      { tag: 'Опора', title: 'Я могу опереться на себя', text: 'Сядь. Почувствуй стул под собой. Скажи вслух: «Я здесь. Я не оставлю себя. Я могу пережить это.» Повтори три раза — медленно.' },
+    ],
+    quote: { text: 'Тебя не нужно спасать.', span: 'Тебя нужно встретить. И первой, кто это сделает — должна быть ты.' }
+  },
+  {
+    id: 'destroyer',
+    emoji: '🔥',
+    name: 'Разрушительница',
+    center: 'Коронарный центр · 🟣 ян',
+    color: '#3A1A00',
+    colorLight: '#8B3A00',
+    colorBg: 'rgba(139,58,0,0.07)',
+    light: 'Способность завершать · Разрушать ложное · Радикальная честность · Выходить из мёртвого',
+    shadowSuppress: 'Застреваешь в токсичном · Не можешь уйти · Живёшь чужой жизнью',
+    shadowCapture: 'Разрушение ради разрушения · Жестокость · Саморазрушение',
+    moods: ['завершающая','застрявшая','честная','разрушающая','свободная','в хаосе','решительная','жестокая'],
+    questions: [
+      { section: 'Архетип', title: 'Разрушительница — Тень', qs: [
+        { q: 'Что в твоей жизни уже мертво — но ты продолжаешь держаться? Отношения, работа, роль, убеждение?', ph: 'Что давно пора отпустить...' },
+        { q: 'Где ты разрушаешь — не чтобы освободиться, а потому что больно и хочется чтобы было больно всем?', ph: 'Честная инвентаризация...' },
+        { q: 'Что тебе нужно завершить — и ты откладываешь это уже давно?', ph: 'Конкретно...' },
+      ]},
+      { section: 'Завершение', title: 'Что готово умереть', qs: [
+        { q: 'Если бы ты знала что выживешь — что бы ты завершила прямо сейчас?', ph: 'Страх исчез — что уходит...' },
+        { q: 'Что рождается в тебе — и просит место которое ещё занято старым?', ph: 'Что хочет прийти...' },
+      ]},
+      { section: 'Вечер', title: 'Итог дня', qs: [
+        { q: 'Где сегодня я имела смелость завершить что-то?', ph: '' },
+        { q: 'Где я разрушала из боли — а не из мудрости?', ph: '' },
+        { q: 'Что пришло время отпустить — и я это знаю?', ph: '' },
+      ]},
+    ],
+    phrases: ['Если я это завершу…','Мне страшно уходить потому что…','Разрушение для меня…','Если я отпущу…','Без этого я…'],
+    practices: [
+      { tag: 'Завершение', title: 'Ритуал отпускания', text: 'Напиши на бумаге что ты готова отпустить. Сожги или разорви. Это не метафора — это действие. Тело понимает ритуалы.' },
+      { tag: 'Честность', title: 'Один честный разговор', text: 'Есть разговор который ты откладываешь? Не весь — начни с одной фразы. «Мне нужно сказать тебе кое-что важное.»' },
+    ],
+    quote: { text: 'Не каждое разрушение — катастрофа.', span: 'Иногда это расчистка места для жизни.' }
+  }
+];
+
+// ════════════════════════════════════
+// СОСТОЯНИЕ
+// ════════════════════════════════════
+const STORAGE_KEY = 'shadow_journal_v3';
+const MONTHS = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const MONTHS_SHORT = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+const WEEKDAYS = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+
+let currentArchId = null;
+let currentDate = null;
+
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveData(d) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(e) {} }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ════════════════════════════════════
+// HOME
+// ════════════════════════════════════
+function goHome() {
+  const data = loadData();
+  const grid = document.querySelector('.archetypes-grid');
+  // rebuild cards
+  const label = grid.querySelector('.grid-label');
+  grid.innerHTML = '';
+  grid.appendChild(label);
+
+  ARCHETYPES.forEach(a => {
+    const count = Object.keys(data[a.id] || {}).length;
+    const card = document.createElement('div');
+    card.className = 'archetype-card';
+    card.style.cssText = `border-color: ${a.colorBg}; background: white;`;
+    card.onmouseenter = () => card.style.borderColor = a.colorLight;
+    card.onmouseleave = () => card.style.borderColor = a.colorBg;
+    card.onclick = () => openArchHome(a.id);
+    card.innerHTML = `
+      <span class="arch-emoji">${a.emoji}</span>
+      <div class="arch-info">
+        <div class="arch-name" style="color:${a.color}">${a.name}</div>
+        <div class="arch-subtitle">${a.center}</div>
+      </div>
+      ${count > 0 ? `<span class="arch-count">${count} ${count===1?'запись':'записей'}</span>` : ''}
+      <span class="arch-arrow">›</span>
+    `;
+    grid.appendChild(card);
+  });
+
+  showScreen('home');
+}
+
+// ════════════════════════════════════
+// ARCHETYPE HOME
+// ════════════════════════════════════
+function openArchHome(archId) {
+  currentArchId = archId;
+  const a = ARCHETYPES.find(x => x.id === archId);
+
+  // top bar
+  document.getElementById('archTopBar').style.background = a.color;
+  document.getElementById('archTopTitle').textContent = a.name;
+
+  // hero
+  const hero = document.getElementById('archHero');
+  hero.style.background = a.color;
+  hero.innerHTML = `
+    <span class="arch-hero-emoji">${a.emoji}</span>
+    <div class="arch-hero-name">${a.name}</div>
+    <div class="arch-hero-center">${a.center}</div>
+  `;
+
+  // light/shadow blocks
+  const ls = document.getElementById('archLightShadow');
+  ls.style.background = a.colorBg;
+  ls.innerHTML = `
+    <div class="ls-block" style="background:rgba(74,82,64,0.06)">
+      <span class="ls-label" style="color:#4A5240">Свет</span>
+      <div class="ls-items" style="color:#2C1810">${a.light}</div>
+    </div>
+    <div class="ls-block" style="background:rgba(139,32,32,0.05)">
+      <span class="ls-label" style="color:${a.colorLight}">Тень подавления</span>
+      <div class="ls-items" style="color:#2C1810">${a.shadowSuppress}</div>
+    </div>
+  `;
+
+  // new entry btn
+  const btn = document.getElementById('archNewBtn');
+  btn.style.background = a.colorLight;
+
+  renderHistory(archId);
+  showScreen('arch-home');
+}
+
+function goArchHome() { openArchHome(currentArchId); }
+
+// ════════════════════════════════════
+// HISTORY
+// ════════════════════════════════════
+function renderHistory(archId) {
+  const a = ARCHETYPES.find(x => x.id === archId);
+  const data = loadData();
+  const entries = data[archId] || {};
+  const keys = Object.keys(entries).sort((a,b) => b.localeCompare(a));
+  const list = document.getElementById('historyList');
+
+  if (!keys.length) {
+    list.innerHTML = '<div class="empty-state">Здесь будут твои записи.<br>Начни первую сегодня.</div>';
+    return;
+  }
+
+  list.innerHTML = keys.map(k => {
+    const e = entries[k];
+    const moods = (e.moods||[]).slice(0,3);
+    const d = new Date(k+'T12:00:00');
+    const allAnswers = [];
+    (a.questions||[]).forEach(sec => { sec.qs.forEach((_,i) => { const v = e[`q_${sec.section}_${i}`]; if(v) allAnswers.push(v); }); });
+    const preview = allAnswers[0] || '';
+    const moodTags = moods.map(m=>`<span class="entry-mood-tag">${m}</span>`).join('');
+    return `<div class="entry-card" onclick="viewEntry('${k}')" style="border-left:3px solid ${a.colorLight}">
+      <div class="entry-date-block">
+        <div class="entry-day">${d.getDate()}</div>
+        <div class="entry-month">${MONTHS_SHORT[d.getMonth()]}</div>
+      </div>
+      <div class="entry-vline"></div>
+      <div class="entry-meta">
+        <div class="entry-weekday">${WEEKDAYS[d.getDay()]}</div>
+        ${preview?`<div class="entry-preview">${preview}</div>`:''}
+        ${moods.length?`<div class="entry-moods">${moodTags}</div>`:''}
+      </div>
+      <span class="entry-arrow">›</span>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════
+// ENTRY FORM
+// ════════════════════════════════════
+function openNewEntry() {
+  currentDate = new Date().toISOString().split('T')[0];
+  const a = ARCHETYPES.find(x => x.id === currentArchId);
+  const data = loadData();
+  const existing = (data[currentArchId]||{})[currentDate] || {};
+
+  document.getElementById('entryTopBar').style.background = a.color;
+  document.getElementById('entryTopTitle').textContent = formatDateHero(currentDate);
+  document.getElementById('saveBtn').style.background = a.colorLight;
+
+  buildEntryForm(a, existing);
+  showScreen('entry-screen');
+}
+
+function buildEntryForm(a, existing) {
+  let html = '';
+
+  // MOOD
+  html += `<div class="section-block">
+    <span class="mood-label">Как ты сейчас?</span>
+    <div class="mood-wrap" id="moodWrap">
+      ${a.moods.map(m=>`<button class="mood-btn${(existing.moods||[]).includes(m)?' sel':''}" style="${(existing.moods||[]).includes(m)?`background:${a.colorLight};border-color:${a.colorLight}`:''};" onclick="toggleMood(this,'${a.colorLight}')">${m}</button>`).join('')}
+    </div>
+  </div>`;
+
+  // QUESTIONS BY SECTION
+  a.questions.forEach(sec => {
+    html += `<div class="section-block">
+      <span class="section-eyebrow">${sec.section}</span>
+      <h2 class="section-title"><em>${sec.title}</em></h2>
+      <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>`;
+
+    sec.qs.forEach((q, i) => {
+      const key = `q_${sec.section}_${i}`;
+      const val = existing[key] || '';
+      html += `<div class="q-item">
+        <div class="q-label"><span class="q-num">${i+1}.</span><span>${q.q}</span></div>
+        <textarea class="q-area" data-key="${key}" placeholder="${q.ph}" style="--accent:${a.colorLight}">${val}</textarea>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  // PHRASES
+  html += `<div class="section-block">
+    <span class="section-eyebrow">Работа с тенью</span>
+    <h2 class="section-title"><em>«Что мне нельзя?»</em></h2>
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+    <p style="font-size:.86rem;color:var(--text-mid);font-weight:300;line-height:1.72;margin-bottom:1.1rem;">Нажми на фразу — продолжи быстро, без цензуры.</p>
+    <ul class="phrase-list">`;
+  a.phrases.forEach((ph, i) => {
+    const key = `phrase_${i}`;
+    const val = existing[key]||'';
+    html += `<li class="phrase-item" style="--c:${a.colorLight}" onclick="togglePhrase(this,'pexp${i}')">
+      <span class="phrase-dash" style="color:${a.colorLight}">—</span>${ph}
+    </li>
+    <div class="phrase-expand" id="pexp${i}">
+      <textarea class="q-area" data-key="${key}" placeholder="Продолжи фразу..." style="min-height:58px;">${val}</textarea>
+    </div>`;
+  });
+  html += `</ul></div>`;
+
+  // PRACTICES
+  html += `<div class="section-block">
+    <span class="section-eyebrow">Телесные практики</span>
+    <h2 class="section-title">На сегодня</h2>
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>`;
+  a.practices.forEach(p => {
+    html += `<div class="practice-card" style="background:${a.color}">
+      <span class="practice-tag">${p.tag}</span>
+      <h3>${p.title}</h3>
+      <p>${p.text}</p>
+    </div>`;
+  });
+  html += `</div>`;
+
+  // QUOTE
+  html += `<div class="quote-block" style="background:${a.color}">
+    <p style="color:rgba(245,239,230,0.7)">${a.quote.text}<br><span style="color:var(--cream)">${a.quote.span}</span></p>
+  </div>`;
+
+  html += `<div style="height:80px"></div>`;
+
+  document.getElementById('entryWrap').innerHTML = html;
+
+  // focus textarea on accent color
+  document.querySelectorAll('.q-area').forEach(el => {
+    el.addEventListener('focus', () => el.style.borderBottomColor = a.colorLight);
+    el.addEventListener('blur', () => el.style.borderBottomColor = 'rgba(196,168,130,0.4)');
+  });
+}
+
+function toggleMood(btn, color) {
+  btn.classList.toggle('sel');
+  if (btn.classList.contains('sel')) {
+    btn.style.background = color;
+    btn.style.borderColor = color;
+    btn.style.color = 'var(--cream)';
+  } else {
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  }
+}
+
+function togglePhrase(item, id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains('open');
+  document.querySelectorAll('.phrase-expand').forEach(e => e.classList.remove('open'));
+  document.querySelectorAll('.phrase-item').forEach(i => i.style.borderColor = '');
+  if (!isOpen) {
+    box.classList.add('open');
+    const a = ARCHETYPES.find(x => x.id === currentArchId);
+    item.style.borderColor = a.colorLight;
+    setTimeout(() => box.querySelector('textarea').focus(), 80);
+  }
+}
+
+function collectEntry() {
+  const entry = { moods: [] };
+  document.querySelectorAll('.mood-btn.sel').forEach(b => entry.moods.push(b.textContent.trim()));
+  document.querySelectorAll('[data-key]').forEach(el => { entry[el.dataset.key] = el.value.trim(); });
+  return entry;
+}
+
+function saveEntry() {
+  const entry = collectEntry();
+  const data = loadData();
+  if (!data[currentArchId]) data[currentArchId] = {};
+  data[currentArchId][currentDate] = entry;
+  saveData(data);
+
+  const btn = document.getElementById('saveBtn');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Сохранено';
+  setTimeout(() => { btn.textContent = orig; goArchHome(); }, 1100);
+}
+
+// ════════════════════════════════════
+// VIEW
+// ════════════════════════════════════
+function viewEntry(dateStr) {
+  currentDate = dateStr;
+  const a = ARCHETYPES.find(x => x.id === currentArchId);
+  const data = loadData();
+  const e = (data[currentArchId]||{})[dateStr];
+  if (!e) return;
+
+  document.getElementById('viewTopBar').style.background = a.color;
+  document.getElementById('viewTopTitle').textContent = formatDateShort(dateStr);
+
+  const moods = (e.moods||[]).map(m=>`<span class="view-mood-tag">${m}</span>`).join('');
+
+  let sectionsHtml = '';
+  a.questions.forEach(sec => {
+    const items = sec.qs.map((q,i) => {
+      const ans = e[`q_${sec.section}_${i}`];
+      return `<div class="view-q">
+        <div class="view-q-label">${q.q}</div>
+        ${ans ? `<div class="view-q-answer" style="border-left-color:${a.colorLight}">${ans.replace(/\n/g,'<br>')}</div>` : '<div class="view-q-empty">— не заполнено —</div>'}
+      </div>`;
+    }).join('');
+    sectionsHtml += `<div class="view-section"><span class="view-section-title">${a.emoji} ${sec.title}</span>${items}</div>`;
+  });
+
+  const phraseItems = a.phrases.map((ph,i) => {
+    const ans = e[`phrase_${i}`];
+    if (!ans) return '';
+    return `<div class="view-q">
+      <div class="view-q-label">${ph}</div>
+      <div class="view-q-answer" style="border-left-color:${a.colorLight}">${ans.replace(/\n/g,'<br>')}</div>
+    </div>`;
+  }).filter(Boolean).join('');
+
+  document.getElementById('viewContent').innerHTML = `
+    <div class="view-date-hero" style="background:${a.color}">
+      <div class="view-date-big">${formatDateHero(dateStr)}</div>
+      <div class="view-date-sub">${WEEKDAYS[new Date(dateStr+'T12:00:00').getDay()]}</div>
+    </div>
+    ${moods?`<div class="view-moods">${moods}</div>`:''}
+    ${sectionsHtml}
+    ${phraseItems?`<div class="view-section"><span class="view-section-title">🌿 Что мне нельзя</span>${phraseItems}</div>`:''}
+    <button class="delete-btn" onclick="deleteEntry('${dateStr}')">✕ Удалить эту запись</button>
+  `;
+
+  showScreen('view-screen');
+}
+
+function editCurrentEntry() {
+  const a = ARCHETYPES.find(x => x.id === currentArchId);
+  const data = loadData();
+  const existing = (data[currentArchId]||{})[currentDate]||{};
+  document.getElementById('entryTopBar').style.background = a.color;
+  document.getElementById('entryTopTitle').textContent = formatDateHero(currentDate);
+  document.getElementById('saveBtn').style.background = a.colorLight;
+  buildEntryForm(a, existing);
+  showScreen('entry-screen');
+}
+
+function deleteEntry(dateStr) {
+  if (!confirm('Удалить эту запись навсегда?')) return;
+  const data = loadData();
+  if (data[currentArchId]) delete data[currentArchId][dateStr];
+  saveData(data);
+  goArchHome();
+}
+
+// ════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════
+function formatDateHero(s) {
+  const d = new Date(s+'T12:00:00');
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+function formatDateShort(s) {
+  const d = new Date(s+'T12:00:00');
+  return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]}`;
+}
+
+// INIT
+document.querySelector('.cover-btn').onclick = goHome;
+</script>
+</body>
+</html>
